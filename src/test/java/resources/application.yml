@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/plazoletaTest
+    url: jdbc:mysql://localhost:3306/plazoleta
     username: root
     password: 12345
 

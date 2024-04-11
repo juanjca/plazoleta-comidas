@@ -3,10 +3,6 @@ package com.pragma.powerup.infrastructure.out.jpa.entity;
 
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +15,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
+
     private String name;
     private String lastname;
     private String dni;

@@ -1,8 +1,6 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
-import com.pragma.powerup.application.dto.request.LoginRequestDto;
 import com.pragma.powerup.application.dto.request.UserRequestDto;
-import com.pragma.powerup.application.dto.response.TokenResponse;
 import com.pragma.powerup.application.handler.impl.UserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

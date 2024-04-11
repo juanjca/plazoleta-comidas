@@ -19,10 +19,6 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     @Override
     public void saveRestaurant(Restaurant restaurant) {
 
-//        if(restaurantRepository.findById(restaurant.getIdRestaurant()).isPresent()){
-//            throw new UserAlreadyExistsException();
-//        }
-
         boolean existUser = userRepository.findById(restaurant.getIdUser().getIdUser()).isPresent();
 
         if(!existUser){

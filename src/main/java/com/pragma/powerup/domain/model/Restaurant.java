@@ -4,7 +4,6 @@ import javax.validation.constraints.Null;
 
 public class Restaurant {
 
-    @Null
     private Long idRestaurant;
     private String name;
     private String address;
@@ -13,7 +12,7 @@ public class Restaurant {
     private String urlLogo;
     private String nit;
 
-    public Restaurant(@Null Long idRestaurant, String name, String address, User idUser, String numberPhone, String urlLogo, String nit) {
+    public Restaurant(Long idRestaurant, String name, String address, User idUser, String numberPhone, String urlLogo, String nit) {
         this.idRestaurant = idRestaurant;
         this.name = name;
         this.address = address;
@@ -21,6 +20,9 @@ public class Restaurant {
         this.numberPhone = numberPhone;
         this.urlLogo = urlLogo;
         this.nit = nit;
+    }
+
+    public Restaurant() {
     }
 
     public Long getIdRestaurant() {

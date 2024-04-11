@@ -24,7 +24,7 @@ public class RestaurantRestController {
     @PostMapping("/")
     public ResponseEntity<String> saveRestaurant(@Valid @RequestBody RestaurantRequestDto restaurantRequestDto){
         restaurantHandler.saveRestaurant(restaurantRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Restaurant created successfully");
     }
 
 }
