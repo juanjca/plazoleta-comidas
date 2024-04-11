@@ -10,9 +10,8 @@ public class Plate {
     private Category idCategory;
     private String description;
     private int price;
-
-    @ManyToOne
-    @JoinColumn(name = "id_restaurant")
+//    @ManyToOne
+//    @JoinColumn(name = "id_restaurant")
     private Restaurant idRestaurant;
     private String urlImage;
     private Boolean active;
@@ -26,6 +25,9 @@ public class Plate {
         this.idRestaurant = idRestaurant;
         this.urlImage = urlImage;
         this.active = true;
+    }
+
+    public Plate() {
     }
 
     public Long getIdPlate() {

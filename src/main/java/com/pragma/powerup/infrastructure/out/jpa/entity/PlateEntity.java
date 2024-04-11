@@ -22,16 +22,12 @@ public class PlateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPlate;
 
-    @NotNull
     private String name;
 
-    @NotNull
     private Long idCategory;
 
-    @NotNull
     private String description;
 
-    @NotNull
     @Positive(message = "El precio debe ser un número positivo")
     @Min(value = 1, message = "El precio debe ser mayor que 0")
     private int price;
@@ -40,6 +36,5 @@ public class PlateEntity {
     @JoinColumn(name = "id_restaurant")
     private RestaurantEntity idRestaurant;
 
-    @NotNull
     private String urlImage;
 }

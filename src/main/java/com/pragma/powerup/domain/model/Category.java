@@ -12,6 +12,9 @@ public class Category {
         this.description = description;
     }
 
+    public Category() {
+    }
+
     public Long getIdCategory() {
         return idCategory;
     }

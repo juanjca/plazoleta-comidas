@@ -28,11 +28,11 @@ public class RestaurantHandler implements IRestaurantHandler {
             throw new UserNotExistException();
         }
 
-        Restaurant restaurant = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
-
-        if (!restaurant.getIdUser().getRole().getName().equals("admin")) {
+        if (!restaurantRequestDto.getIdUser().equals(1L)) {
             throw new UserNotOwner();
         }
+
+        Restaurant restaurant = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
 
         restaurantServicePort.saveRestaurant(restaurant);
     }

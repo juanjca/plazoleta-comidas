@@ -23,7 +23,7 @@ public class PlateRestController {
     @PostMapping("/")
     public ResponseEntity<String> savePlate(@Valid @RequestBody PlateRequestDto plateRequestDto){
         plateHandler.savePlate(plateRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Plate created successfully");
     }
 
     @PutMapping("/")
