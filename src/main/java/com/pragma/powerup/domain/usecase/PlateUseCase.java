@@ -1,0 +1,29 @@
+package com.pragma.powerup.domain.usecase;
+
+import com.pragma.powerup.domain.api.IPlateServicePort;
+import com.pragma.powerup.domain.model.Plate;
+import com.pragma.powerup.domain.spi.IPlatePersistencePort;
+
+public class PlateUseCase implements IPlateServicePort {
+
+    private final IPlatePersistencePort platePersistencePort;
+
+    public PlateUseCase(IPlatePersistencePort platePersistencePort) {
+        this.platePersistencePort = platePersistencePort;
+    }
+
+    @Override
+    public void savePlate(Plate plate) {
+        platePersistencePort.savePlate(plate);
+    }
+
+    @Override
+    public void updatePlate(Plate plate) {
+        platePersistencePort.updatePlate(plate);
+    }
+
+    @Override
+    public Plate getPlate(Long idPlate) {
+        return platePersistencePort.getPlate(idPlate);
+    }
+}
