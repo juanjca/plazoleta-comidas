@@ -2,7 +2,6 @@ package com.pragma.powerup.infrastructure.out.jpa.adapter;
 
 import com.pragma.powerup.domain.model.Plate;
 import com.pragma.powerup.domain.spi.IPlatePersistencePort;
-import com.pragma.powerup.infrastructure.exception.PlateAlreadyExistsException;
 import com.pragma.powerup.infrastructure.exception.PlateNotFoundException;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.PlateEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IPlateRepository;

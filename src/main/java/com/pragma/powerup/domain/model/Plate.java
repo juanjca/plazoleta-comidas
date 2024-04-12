@@ -10,8 +10,6 @@ public class Plate {
     private Category idCategory;
     private String description;
     private int price;
-//    @ManyToOne
-//    @JoinColumn(name = "id_restaurant")
     private Restaurant idRestaurant;
     private String urlImage;
     private Boolean active;

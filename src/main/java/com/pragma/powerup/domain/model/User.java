@@ -13,9 +13,9 @@ public class User {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private Role role;
+    private Role idRole;
 
-    public User(Long idUser, String name, String lastname, String dni, String number, LocalDate birthDate, String email, String password, Role role) {
+    public User(Long idUser, String name, String lastname, String dni, String number, LocalDate birthDate, String email, String password, Role idRole) {
         this.idUser = idUser;
         this.name = name;
         this.lastname = lastname;
@@ -24,7 +24,7 @@ public class User {
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.idRole = idRole;
     }
 
     public User() {
@@ -75,12 +75,12 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Role getIdRole() {
+        return idRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setIdRole(Role role) {
+        this.idRole = role;
     }
 
     public void setNumber(String number) {

@@ -39,4 +39,7 @@ public class UserRequestDto {
     @NotNull(message = "La contraseña no puede estar vacía")
     private String password;
 
+    @NotNull()
+    private Long idRole;
+
 }

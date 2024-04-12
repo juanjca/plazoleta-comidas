@@ -7,7 +7,7 @@ import com.pragma.powerup.application.dto.response.PlateResponse;
 
 public interface IPlateHandler {
 
-    void savePlate(PlateRequestDto plateRequestDto);
+    void savePlate(PlateRequestDto plateRequestDto) throws Exception;
 
     void updatePlate(PlatePutRequestDto platePutRequestDto);
 

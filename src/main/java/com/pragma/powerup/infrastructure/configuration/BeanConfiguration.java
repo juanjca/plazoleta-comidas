@@ -25,9 +25,11 @@ import com.pragma.powerup.infrastructure.out.jpa.repository.IPlateRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IRestaurantRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
 //import com.pragma.powerup.infrastructure.security.TokenUtils;
+import com.pragma.powerup.infrastructure.out.jpa.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 
 @Configuration
 @RequiredArgsConstructor
@@ -44,8 +46,6 @@ public class BeanConfiguration {
 
     private final ICategoryRepository categoryRepository;
     private final CategoryEntityMapper categoryEntityMapper;
-
-//    private final TokenUtils tokenUtils;
 
     @Bean
     public IRestaurantPersistencePort restaurantPersistencePort(){ return new RestaurantJpaAdapter(restaurantRepository, restaurantEntityMapper, userRepository);}
