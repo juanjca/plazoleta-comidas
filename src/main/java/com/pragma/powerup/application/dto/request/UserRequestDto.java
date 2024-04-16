@@ -1,12 +1,7 @@
 package com.pragma.powerup.application.dto.request;
 
-import com.pragma.powerup.domain.model.Role;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -39,7 +34,7 @@ public class UserRequestDto {
     @NotNull(message = "La contraseña no puede estar vacía")
     private String password;
 
-    @NotNull()
+    @NotNull
     private Long idRole;
 
 }

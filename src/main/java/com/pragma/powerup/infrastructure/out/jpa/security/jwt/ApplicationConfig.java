@@ -39,7 +39,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> (UserDetails) userRepository.findOneByEmail(email);
+        return email -> (UserDetails) userRepository.findByEmail(email);
     }
 
 }

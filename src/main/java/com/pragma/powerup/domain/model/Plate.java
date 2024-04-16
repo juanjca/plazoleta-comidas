@@ -12,9 +12,9 @@ public class Plate {
     private int price;
     private Restaurant idRestaurant;
     private String urlImage;
-    private Boolean active;
+    private Boolean state;
 
-    public Plate(Long idPlate, String name, Category idCategory, String description, int price, Restaurant idRestaurant, String urlImage, Boolean active) {
+    public Plate(Long idPlate, String name, Category idCategory, String description, int price, Restaurant idRestaurant, String urlImage, Boolean state) {
         this.idPlate = idPlate;
         this.name = name;
         this.idCategory = idCategory;
@@ -22,7 +22,7 @@ public class Plate {
         this.price = price;
         this.idRestaurant = idRestaurant;
         this.urlImage = urlImage;
-        this.active = true;
+        this.state = state;
     }
 
     public Plate() {
@@ -84,11 +84,11 @@ public class Plate {
         this.urlImage = urlImage;
     }
 
-    public Boolean getActive() {
-        return active;
+    public Boolean getState() {
+        return state;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setState(Boolean active) {
+        this.state = active;
     }
 }

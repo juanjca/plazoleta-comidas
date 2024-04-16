@@ -20,7 +20,7 @@ public class AdminService {
 
     public TokenResponse login(LoginRequestDto loginRequestDto) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
-        UserEntity user = userRepository.findOneByEmail(loginRequestDto.getEmail());
+        UserEntity user = userRepository.findByEmail(loginRequestDto.getEmail());
         String token = jwtService.getToken(user);
         return TokenResponse.builder()
                 .token(token)

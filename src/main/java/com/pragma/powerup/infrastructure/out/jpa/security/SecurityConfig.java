@@ -28,9 +28,11 @@ public class SecurityConfig {
                         csrf.disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers(
-                                        new AntPathRequestMatcher("/auth/**")
-                                ).permitAll()
+                                .antMatchers("/auth/**").permitAll()
+                                .antMatchers("/user/client/").permitAll()
+                                .antMatchers("/restaurant/list/").permitAll()
+                                .antMatchers("/plate/menu/{idRestaurant}").permitAll()
+                                .antMatchers("/user/order/{idClient}").hasAuthority("client")
                                 .anyRequest().authenticated())
                 .sessionManagement(sessionManager ->
                         sessionManager

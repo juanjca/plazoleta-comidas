@@ -1,9 +1,7 @@
 package com.pragma.powerup.application.handler.impl;
 
 
-import com.pragma.powerup.application.dto.request.LoginRequestDto;
 import com.pragma.powerup.application.dto.request.UserRequestDto;
-import com.pragma.powerup.application.dto.response.TokenResponse;
 import com.pragma.powerup.application.exception.RolUserNotAdmitted;
 import com.pragma.powerup.application.exception.UserNotLegalAge;
 import com.pragma.powerup.application.handler.IUserHandler;
@@ -34,7 +32,7 @@ public class UserHandler implements IUserHandler {
 
         boolean existRole = roleRepository.existsById(userRequestDto.getIdRole());
 
-        if(userRequestDto.getIdRole().equals(1L) || !existRole){
+        if(!userRequestDto.getIdRole().equals(2L) || !existRole){
             throw new RolUserNotAdmitted("Role not Admitted");
         }
 
@@ -42,6 +40,45 @@ public class UserHandler implements IUserHandler {
 
         user.setPassword(hashPassword(user.getPassword()));
         userServicePort.saveUser(user);
+    }
+
+    @Override
+    public void saveUserEmployee(UserRequestDto userRequestDto) {
+
+        if(!isOlder(userRequestDto.getBirthDate())){
+            throw new UserNotLegalAge("You have to be of legal age");
+        }
+
+        boolean existRole = roleRepository.existsById(userRequestDto.getIdRole());
+
+        if(!userRequestDto.getIdRole().equals(3L) || !existRole){
+            throw new RolUserNotAdmitted("Role not Admitted");
+        }
+
+        User user = userRequestMapper.toUser(userRequestDto);
+
+        user.setPassword(hashPassword(user.getPassword()));
+        userServicePort.saveUser(user);
+    }
+
+    @Override
+    public void saveUserClient(UserRequestDto userRequestDto) {
+
+        if(!isOlder(userRequestDto.getBirthDate())){
+            throw new UserNotLegalAge("You have to be of legal age");
+        }
+
+        boolean existRole = roleRepository.existsById(userRequestDto.getIdRole());
+
+        if(!userRequestDto.getIdRole().equals(4L) || !existRole){
+            throw new RolUserNotAdmitted("Role not Admitted");
+        }
+
+        User user = userRequestMapper.toUser(userRequestDto);
+
+        user.setPassword(hashPassword(user.getPassword()));
+        userServicePort.saveUser(user);
+
     }
 
     public boolean isOlder(LocalDate birthDate) {

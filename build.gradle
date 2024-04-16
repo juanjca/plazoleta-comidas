@@ -46,6 +46,7 @@ dependencies {
 	implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
 	implementation "org.springdoc:springdoc-openapi-webflux-ui:${openApiVersion}"
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.2.5.RELEASE'
 
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.mindrot:jbcrypt:0.4'

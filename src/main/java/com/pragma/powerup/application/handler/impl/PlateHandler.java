@@ -2,6 +2,7 @@
 
     import com.pragma.powerup.application.dto.request.PlatePutRequestDto;
     import com.pragma.powerup.application.dto.request.PlateRequestDto;
+    import com.pragma.powerup.application.dto.request.StatePlateRequestDto;
     import com.pragma.powerup.application.dto.response.PlateResponse;
     import com.pragma.powerup.application.exception.PlateNotExist;
     import com.pragma.powerup.application.exception.RestaurantNotExist;
@@ -12,18 +13,19 @@
     import com.pragma.powerup.domain.api.IPlateServicePort;
     import com.pragma.powerup.domain.model.Plate;
     import com.pragma.powerup.infrastructure.exception.NotOwnerOfRestaurant;
-    import com.pragma.powerup.infrastructure.exception.UserNotExistException;
     import com.pragma.powerup.infrastructure.out.jpa.entity.PlateEntity;
     import com.pragma.powerup.infrastructure.out.jpa.entity.RestaurantEntity;
     import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
     import com.pragma.powerup.infrastructure.out.jpa.repository.IPlateRepository;
     import com.pragma.powerup.infrastructure.out.jpa.repository.IRestaurantRepository;
-    import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
     import lombok.RequiredArgsConstructor;
+    import org.springframework.data.domain.PageRequest;
+    import org.springframework.data.domain.Pageable;
     import org.springframework.security.core.Authentication;
     import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.stereotype.Service;
 
+    import java.util.List;
     import java.util.Optional;
 
     @Service
@@ -38,7 +40,7 @@
         private final IPlateRepository plateRepository;
 
         @Override
-        public void savePlate(PlateRequestDto plateRequestDto){
+        public void savePlate(PlateRequestDto plateRequestDto) {
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Long userId = ((UserEntity) authentication.getPrincipal()).getIdUser();
@@ -56,6 +58,7 @@
 
             Plate plate = plateRequestMapper.toPlate(plateRequestDto);
 
+            plate.setState(true);
             plateServicePort.savePlate(plate);
         }
 
@@ -66,14 +69,11 @@
             Long userId = ((UserEntity) authentication.getPrincipal()).getIdUser();
 
             Optional<PlateEntity> plateEntityOptional = plateRepository.findById(platePutRequestDto.getIdPlate());
-            if(plateEntityOptional.isEmpty()){
+            if (plateEntityOptional.isEmpty()) {
                 throw new PlateNotExist("Plate not found");
             }
 
             PlateEntity plateEntity = plateEntityOptional.get();
-
-            System.out.println(userId);
-            System.out.println(plateEntity.getIdRestaurant().getIdUser());
 
             if (!plateEntity.getIdRestaurant().getIdUser().equals(userId)) {
                 throw new NotOwnerOfRestaurant();
@@ -90,8 +90,36 @@
         }
 
         @Override
+        public void changeStatePlate(StatePlateRequestDto statePlateRequestDto) {
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Long userId = ((UserEntity) authentication.getPrincipal()).getIdUser();
+
+            Optional<PlateEntity> plateEntityOptional = plateRepository.findById(statePlateRequestDto.getIdPlate());
+            if (plateEntityOptional.isEmpty()) {
+                throw new PlateNotExist("Plate not found");
+            }
+
+            PlateEntity plateEntity = plateEntityOptional.get();
+
+            if (!plateEntity.getIdRestaurant().getIdUser().equals(userId)) {
+                throw new NotOwnerOfRestaurant();
+            }
+
+            plateEntity.setState(statePlateRequestDto.getState());
+            plateRepository.save(plateEntity);
+        }
+
+
+        @Override
         public PlateResponse getPlate(Long idPlate) {
             Plate plate = plateServicePort.getPlate(idPlate);
             return plateResponseMapper.toResponse(plate);
+        }
+
+        @Override
+        public List<PlateResponse> getMenuForRestaurant(Long restaurantId) {
+            List<Plate> plates = plateServicePort.getMenuForRestaurant(restaurantId);
+            return plateResponseMapper.toResponseList(plates);
         }
     }

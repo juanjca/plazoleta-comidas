@@ -1,35 +1,14 @@
 package com.pragma.powerup.infrastructure.configuration;
 
-import com.pragma.powerup.domain.api.ICategoryServicePort;
-import com.pragma.powerup.domain.api.IPlateServicePort;
-import com.pragma.powerup.domain.api.IRestaurantServicePort;
-import com.pragma.powerup.domain.api.IUserServicePort;
-import com.pragma.powerup.domain.spi.ICategoryPersistencePort;
-import com.pragma.powerup.domain.spi.IPlatePersistencePort;
-import com.pragma.powerup.domain.spi.IRestaurantPersistencePort;
-import com.pragma.powerup.domain.spi.IUserPersistencePort;
-import com.pragma.powerup.domain.usecase.CategoryUseCase;
-import com.pragma.powerup.domain.usecase.PlateUseCase;
-import com.pragma.powerup.domain.usecase.RestaurantUseCase;
-import com.pragma.powerup.domain.usecase.UserUseCase;
-import com.pragma.powerup.infrastructure.out.jpa.adapter.CategoryJpaAdapter;
-import com.pragma.powerup.infrastructure.out.jpa.adapter.PlateJpaAdapter;
-import com.pragma.powerup.infrastructure.out.jpa.adapter.RestaurantJpaAdapter;
-import com.pragma.powerup.infrastructure.out.jpa.adapter.UserJpaAdapter;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.CategoryEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.PlateEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.RestaurantEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.UserEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.repository.ICategoryRepository;
-import com.pragma.powerup.infrastructure.out.jpa.repository.IPlateRepository;
-import com.pragma.powerup.infrastructure.out.jpa.repository.IRestaurantRepository;
-import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
-//import com.pragma.powerup.infrastructure.security.TokenUtils;
-import com.pragma.powerup.infrastructure.out.jpa.security.JwtService;
+import com.pragma.powerup.domain.api.*;
+import com.pragma.powerup.domain.spi.*;
+import com.pragma.powerup.domain.usecase.*;
+import com.pragma.powerup.infrastructure.out.jpa.adapter.*;
+import com.pragma.powerup.infrastructure.out.jpa.mapper.*;
+import com.pragma.powerup.infrastructure.out.jpa.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 
 @Configuration
 @RequiredArgsConstructor
@@ -47,11 +26,41 @@ public class BeanConfiguration {
     private final ICategoryRepository categoryRepository;
     private final CategoryEntityMapper categoryEntityMapper;
 
-    @Bean
-    public IRestaurantPersistencePort restaurantPersistencePort(){ return new RestaurantJpaAdapter(restaurantRepository, restaurantEntityMapper, userRepository);}
+    private final IOrderRepository orderRepository;
+    private final OrderEntityMapper orderEntityMapper;
+
+    private final IOrderPlateRepository orderPlateRepository;
+    private final OrderPlateEntityMapper orderPlateEntityMapper;
 
     @Bean
-    public IRestaurantServicePort restaurantServicePort(){ return new RestaurantUseCase(restaurantPersistencePort());}
+    public IOrderPlatePersistencePort orderPlatePersistencePort(){
+        return new OrderPlateJpaAdapter(orderPlateRepository, orderPlateEntityMapper, plateEntityMapper);
+    }
+
+    @Bean
+    public IOrderPlateServicePort orderPlateServicePort(){
+        return new OrderPlateUseCase(orderPlatePersistencePort());
+    }
+
+    @Bean
+    public IOrderPersistencePort orderPersistencePort(){
+        return new OrderJpaAdapter(orderRepository, orderEntityMapper);
+    }
+
+    @Bean
+    public IOrderServicePort orderServicePort(){
+        return new OrderUseCase(orderPersistencePort());
+    }
+
+    @Bean
+    public IRestaurantPersistencePort restaurantPersistencePort(){
+        return new RestaurantJpaAdapter(restaurantRepository, restaurantEntityMapper, userRepository);
+    }
+
+    @Bean
+    public IRestaurantServicePort restaurantServicePort(){
+        return new RestaurantUseCase(restaurantPersistencePort());
+    }
 
     @Bean
     public IUserPersistencePort userPersistencePort(){
@@ -65,7 +74,7 @@ public class BeanConfiguration {
 
     @Bean
     public IPlatePersistencePort platePersistencePort(){
-        return new PlateJpaAdapter(plateRepository, plateEntityMapper);
+        return new PlateJpaAdapter(plateRepository, plateEntityMapper, restaurantRepository);
     }
 
     @Bean

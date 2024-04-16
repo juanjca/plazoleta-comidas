@@ -1,6 +1,9 @@
 package com.pragma.powerup.domain.spi;
 
 import com.pragma.powerup.domain.model.Plate;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface IPlatePersistencePort {
 
@@ -9,5 +12,8 @@ public interface IPlatePersistencePort {
     void updatePlate(Plate plate);
 
     Plate getPlate(Long idPlate);
+
+    List<Plate> getMenuForRestaurant(Long idRestaurant);
+
 
 }

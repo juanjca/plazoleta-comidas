@@ -7,8 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,4 +37,9 @@ public class PlateEntity {
     private RestaurantEntity idRestaurant;
 
     private String urlImage;
+
+    private Boolean state;
+
+    @OneToMany(mappedBy = "idPlate")
+    Set<PlateEntity> plate;
 }

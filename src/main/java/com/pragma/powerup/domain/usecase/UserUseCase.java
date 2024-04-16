@@ -5,6 +5,7 @@ import com.pragma.powerup.domain.model.Restaurant;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
+import org.springframework.data.domain.Page;
 
 public class UserUseCase implements IUserServicePort {
 

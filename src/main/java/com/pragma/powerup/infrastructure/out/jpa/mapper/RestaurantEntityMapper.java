@@ -14,4 +14,7 @@ public interface RestaurantEntityMapper {
     @Mapping(source = "idUser.idUser", target = "idUser")
     RestaurantEntity toRestaurant(Restaurant restaurant);
 
+    @Mapping(source = "idUser", target = "idUser.idUser")
+    Restaurant toRestaurantEntity(RestaurantEntity restaurant);
+
 }
