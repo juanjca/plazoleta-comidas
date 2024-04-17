@@ -2,15 +2,20 @@ package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.dto.request.OrderRequestDto;
 import com.pragma.powerup.application.exception.RestaurantNotExist;
+import com.pragma.powerup.application.exception.RolUserNotAdmitted;
 import com.pragma.powerup.application.handler.IOrderHandler;
 import com.pragma.powerup.application.mapper.OrderRequestMapper;
 import com.pragma.powerup.domain.api.IOrderServicePort;
 import com.pragma.powerup.domain.model.Orders;
+import com.pragma.powerup.domain.model.State;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.infrastructure.exception.ClientNotExistsException;
 import com.pragma.powerup.infrastructure.exception.UserNotExistException;
+import com.pragma.powerup.infrastructure.out.jpa.entity.OrderEntity;
 import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
+import com.pragma.powerup.infrastructure.out.jpa.mapper.OrderEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.UserEntityMapper;
+import com.pragma.powerup.infrastructure.out.jpa.repository.IOrderRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IRestaurantRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +32,12 @@ public class OrderHandler implements IOrderHandler {
 
     private final IOrderServicePort orderServicePort;
     private final OrderRequestMapper orderRequestMapper;
+    private final OrderEntityMapper orderEntityMapper;
     private final UserEntityMapper userEntityMapper;
     private final IRestaurantRepository restaurantRepository;
     private final IUserRepository userRepository;
     private final OrderPlateHandler orderPlateHandler;
+    private final IOrderRepository orderRepository;
 
     @Override
     public void saveOrder(OrderRequestDto orderRequestDto) {
@@ -74,8 +81,30 @@ public class OrderHandler implements IOrderHandler {
                 orderPlateHandler.saveOrderPlate(orderRequestDto, idPlate);
             }
         }
-
-
     }
+
+    @Override
+    public void selectOrder(Long idOrder, State state) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long idUser = ((UserEntity) authentication.getPrincipal()).getIdUser();
+
+        Optional<UserEntity> userEntityOptional = userRepository.findById(idUser);
+        UserEntity userEntity = userEntityOptional.get();
+        User user = userEntityMapper.toUserEntity(userEntity);
+
+        if (!user.getIdRole().getIdRole().equals(3L)) {
+            throw new RolUserNotAdmitted("No tienes permitido entrar a esta endpoint");
+        }
+
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(idOrder);
+        OrderEntity orderEntity = orderEntityOptional.get();
+        Orders order = orderEntityMapper.toOrder(orderEntity);
+
+        order.setState(state);
+        orderRepository.save(orderEntityMapper.toOrderEntity(order));
+    }
+
+
 }
 

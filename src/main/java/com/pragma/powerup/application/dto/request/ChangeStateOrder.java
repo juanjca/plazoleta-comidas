@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ChangeStateOrder {
 
+    Long idOrder;
     State state;
 
 }

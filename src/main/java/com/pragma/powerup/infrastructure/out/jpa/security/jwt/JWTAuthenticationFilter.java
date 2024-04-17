@@ -64,13 +64,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean checkUserRole(UserDetails userDetails, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
+        String method = request.getMethod();
+
         if (requestURI.equals("/user/") || requestURI.equals("/restaurant/")) {
             return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("admin"));
           } else if (requestURI.equals("/plate/") || requestURI.equals("/plate/changeState/") || requestURI.equals("/user/employee/")) {
                 return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("owner"));
             } else if (requestURI.equals("/user/order/")) {
                     return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("client"));
-                 } else if (requestURI.equals("/plate/getAll/")) {
+                 } else if (requestURI.equals("/plate/getAll/") || requestURI.equals("/plate/update/")) {
                     return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("employee"));
 
         }

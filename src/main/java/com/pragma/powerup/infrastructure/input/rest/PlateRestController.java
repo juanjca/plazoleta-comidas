@@ -2,14 +2,17 @@ package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.request.*;
 import com.pragma.powerup.application.dto.response.PlateResponse;
+import com.pragma.powerup.application.handler.impl.OrderHandler;
 import com.pragma.powerup.application.handler.impl.PlateHandler;
 import com.pragma.powerup.domain.model.Orders;
+import com.pragma.powerup.domain.model.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,7 @@ import java.util.List;
 public class PlateRestController {
 
     private final PlateHandler plateHandler;
+    private final OrderHandler orderHandler;
 
     @PostMapping("/")
     public ResponseEntity<String> savePlate(@Valid @RequestBody PlateRequestDto plateRequestDto){
@@ -32,7 +36,6 @@ public class PlateRestController {
 
     @PutMapping("/")
     public ResponseEntity<Void> updatePlate(@Valid @RequestBody PlatePutRequestDto platePutRequestDto){
-        System.out.println("Entro al controlador");
         plateHandler.updatePlate(platePutRequestDto);
         return ResponseEntity.noContent().build();
     }
@@ -58,6 +61,12 @@ public class PlateRestController {
                                             @RequestParam int page,
                                             @RequestParam int size) {
         return new ResponseEntity<>(plateHandler.getOrderByState(changeStateOrder, page, size), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/")
+    public ResponseEntity<Void> selectOrder(@RequestBody ChangeStateOrder state) {
+        orderHandler.selectOrder(state.getIdOrder(), state.getState());
+        return ResponseEntity.noContent().build();
     }
 
 
