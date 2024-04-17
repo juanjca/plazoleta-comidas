@@ -70,6 +70,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("owner"));
             } else if (requestURI.equals("/user/order/")) {
                     return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("client"));
+                 } else if (requestURI.equals("/plate/getAll/")) {
+                    return userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("employee"));
 
         }
         return false;

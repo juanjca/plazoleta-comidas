@@ -1,10 +1,9 @@
 package com.pragma.powerup.application.handler;
 
-import com.pragma.powerup.application.dto.request.PlatePutRequestDto;
-import com.pragma.powerup.application.dto.request.PlateRequestDto;
-import com.pragma.powerup.application.dto.request.StatePlateRequestDto;
-import com.pragma.powerup.application.dto.request.UserRequestDto;
+import com.pragma.powerup.application.dto.request.*;
 import com.pragma.powerup.application.dto.response.PlateResponse;
+import com.pragma.powerup.domain.model.Orders;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +20,6 @@ public interface IPlateHandler {
     PlateResponse getPlate(Long plateNumber);
 
     List<PlateResponse> getMenuForRestaurant(Long restaurantId);
+
+    Page<List<Orders>> getOrderByState(ChangeStateOrder changeStateOrder, int page, int size);
 }

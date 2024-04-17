@@ -35,7 +35,7 @@ public class OrderHandler implements IOrderHandler {
     @Override
     public void saveOrder(OrderRequestDto orderRequestDto) {
 
-        Orders order = new Orders();
+        Orders order;
 
         Long idRestaurant = orderRequestDto.getIdRestaurant();
 

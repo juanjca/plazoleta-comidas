@@ -1,11 +1,9 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
-import com.pragma.powerup.application.dto.request.GetPlateRequestDto;
-import com.pragma.powerup.application.dto.request.PlatePutRequestDto;
-import com.pragma.powerup.application.dto.request.PlateRequestDto;
-import com.pragma.powerup.application.dto.request.StatePlateRequestDto;
+import com.pragma.powerup.application.dto.request.*;
 import com.pragma.powerup.application.dto.response.PlateResponse;
 import com.pragma.powerup.application.handler.impl.PlateHandler;
+import com.pragma.powerup.domain.model.Orders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,9 +48,16 @@ public class PlateRestController {
         return ResponseEntity.ok(plateHandler.getPlate(getPlateRequestDto.getIdPlate()));
     }
 
-    @GetMapping("/menu/{idRestaurant}")
+    @GetMapping("/menu/{idRestaurant}/")
     public ResponseEntity<List<PlateResponse>> getMenuForRestaurant(@PathVariable("idRestaurant") Long restaurantId) {
         return ResponseEntity.ok(plateHandler.getMenuForRestaurant(restaurantId));
+    }
+
+    @GetMapping("/getAll/")
+    public ResponseEntity<Page<List<Orders>>> get(@RequestBody ChangeStateOrder changeStateOrder,
+                                            @RequestParam int page,
+                                            @RequestParam int size) {
+        return new ResponseEntity<>(plateHandler.getOrderByState(changeStateOrder, page, size), HttpStatus.OK);
     }
 
 
